@@ -12,8 +12,12 @@ function read() {
   const fileContent = fs.readFileSync('puzzles.txt', 'utf-8').split(os.EOL); // Получаем все задачи из файла и преобразуем их в массив по переносу на новую строку; получаем массив, где каждый элемент - одна задача
 
   const task = fileContent[lineNumber - 1];
+  if (!task) {
+    console.log(`❌ Задача #${lineNumber} не найдена!`);
+    process.exit(1);
+  }
 
-  console.log(task);
+  // console.log(task);
 
   /* 
   Полученную задачу в виде строки преобразуем в двумерный массив, где каждая строка массив из 9 элементов и всего 9 строк
@@ -95,32 +99,28 @@ function isSolved(solvedTask) {
   }
   return flag;
 }
- 
-  function prettyBoard(grid) {
-   console.log("┌───────┬───────┬───────┐");
-    for (let row = 0; row < 9; row++) {
-        let line = "│ ";
-        for (let col = 0; col < 9; col++) {
-            line += grid[row][col];
-            if (col === 2 || col === 5) {
-                line += " │ ";
-            } else if (col < 8) {
-                line += " ";
-            }
-        }
-        line += " │";
-        console.log(line);
 
-        if (row === 2 || row === 5) {
-            console.log("├───────┼───────┼───────┤");
-        }
+function prettyBoard(grid) {
+  console.log('┌───────┬───────┬───────┐');
+  for (let row = 0; row < 9; row++) {
+    let line = '│ ';
+    for (let col = 0; col < 9; col++) {
+      line += grid[row][col];
+      if (col === 2 || col === 5) {
+        line += ' │ ';
+      } else if (col < 8) {
+        line += ' ';
+      }
     }
-    console.log("└───────┴───────┴───────┘");
+    line += ' │';
+    console.log(line);
+
+    if (row === 2 || row === 5) {
+      console.log('├───────┼───────┼───────┤');
+    }
+  }
+  console.log('└───────┴───────┴───────┘');
 }
-
-
-  
-
 
 module.exports = {
   read,

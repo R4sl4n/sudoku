@@ -10,3 +10,4 @@ if (isSolvedFlag === true) {
 } else {
   console.log(false);
 }
+prettyBoard(solved);
