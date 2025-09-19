@@ -121,7 +121,7 @@ function prettyBoard(grid) {
   }
   console.log('└───────┴───────┴───────┘');
 }
-
+// пр
 module.exports = {
   read,
   solve,
