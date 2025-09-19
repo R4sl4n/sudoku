@@ -1,6 +1,7 @@
 const fs = require('fs');
 const os = require('os');
 
+
 function read() {
   const lineNumber = process.argv[2]; // Получаем цифру введенную в терминал
 
@@ -126,5 +127,5 @@ module.exports = {
   read,
   solve,
   isSolved,
-  prettyBoard,
+  prettyBoard
 };
