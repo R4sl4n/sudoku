@@ -4,14 +4,14 @@ const os = require('os');
 function read() {
   const lineNumber = process.argv[2]; // Получаем цифру введенную в терминал
 
-   if (!lineNumber) {
-        console.log("❌ Укажи номер задачи!")
-        process.exit(1);
-   }
+  if (!lineNumber) {
+    console.log('❌ Укажи номер задачи!');
+    process.exit(1);
+  }
 
   const fileContent = fs.readFileSync('puzzles.txt', 'utf-8').split(os.EOL); // Получаем все задачи из файла и преобразуем их в массив по переносу на новую строку; получаем массив, где каждый элемент - одна задача
 
-  const task = fileContent[lineNumber - 1] ;
+  const task = fileContent[lineNumber - 1];
 
   console.log(task);
 
@@ -95,18 +95,36 @@ function isSolved(solvedTask) {
   }
   return flag;
 }
+ 
+  function prettyBoard(grid) {
+   console.log("┌───────┬───────┬───────┐");
+    for (let row = 0; row < 9; row++) {
+        let line = "│ ";
+        for (let col = 0; col < 9; col++) {
+            line += grid[row][col];
+            if (col === 2 || col === 5) {
+                line += " │ ";
+            } else if (col < 8) {
+                line += " ";
+            }
+        }
+        line += " │";
+        console.log(line);
 
-function prettyBoard() {
-  /**
-   * Принимает игровое поле в том формате, в котором его вернули из функции solve.
-   * Выводит в консоль/терминал судоку.
-   * Подумай, как симпатичнее его вывести.
-   */
+        if (row === 2 || row === 5) {
+            console.log("├───────┼───────┼───────┤");
+        }
+    }
+    console.log("└───────┴───────┴───────┘");
 }
+
+
+  
+
 
 module.exports = {
   read,
   solve,
   isSolved,
-  // prettyBoard
+  prettyBoard,
 };
