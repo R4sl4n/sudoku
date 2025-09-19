@@ -11,11 +11,27 @@ function read() {
 
 
 function solve() {
-  /**
-   * Принимает игровое поле в том формате, в котором его вернули из функции read.
-   * Возвращает игровое поле после попытки его решить.
-   */
+  const sudoku = read();
+  console.log(sudoku);
+  const grid = [];
+  for (let row = 0; row < 9; row++) {
+    grid[row] = [];
+    for (let col = 0; col < 9; col++) {
+      const charindex = row * 9 + col;
+
+      const char = sudoku[charindex];
+      if (char === '.') {
+        grid[row][col] = 0;
+      } else {
+        grid[row][col] = char;
+      }
+    }
+  }
+return grid;
 }
+
+
+console.log(solve());
 
 function isSolved() {
   /**
