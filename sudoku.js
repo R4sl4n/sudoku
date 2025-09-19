@@ -1,8 +1,14 @@
+const fs = require('fs');
+const os = require('os');
+
 function read() {
-  /**
-   * Прочесть файл puzzles.txt в кодировке 'utf-8' и вернуть эти данные из функции
-   */
+  const readear = fs.readFileSync('./puzzles.txt', 'utf-8');
+  const task = readear.split(os.EOL);
+  const taskNum = process.argv[2] ?? 1;
+
+  return task[taskNum - 1];
 }
+
 
 function solve() {
   /**
