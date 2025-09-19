@@ -3,9 +3,17 @@ const os = require('os');
 
 function read() {
   const lineNumber = process.argv[2]; // Получаем цифру введенную в терминал
+
+   if (!lineNumber) {
+        console.log("❌ Укажи номер задачи!")
+        process.exit(1);
+   }
+
   const fileContent = fs.readFileSync('puzzles.txt', 'utf-8').split(os.EOL); // Получаем все задачи из файла и преобразуем их в массив по переносу на новую строку; получаем массив, где каждый элемент - одна задача
 
-  const task = fileContent[lineNumber - 1];
+  const task = fileContent[lineNumber - 1] ;
+
+  console.log(task);
 
   /* 
   Полученную задачу в виде строки преобразуем в двумерный массив, где каждая строка массив из 9 элементов и всего 9 строк
@@ -21,7 +29,6 @@ function read() {
 
   return sudoku;
 }
-
 
 function solve(task) {
   // Создаем копию массива, чтобы не менять исходный
@@ -70,21 +77,24 @@ function solve(task) {
             solution[row][col] = '-';
           }
         }
-      return null;
+        return null;
       }
     }
   }
   return solution;
 }
 
-
-
-// Функция: можно ли поставить число?
-function isSolved() {}
-
-
-
-
+function isSolved(solvedTask) {
+  let flag = true;
+  // eslint-disable-next-line @elbrus/prefer-for-of
+  for (let i = 0; i < solvedTask.length; i++) {
+    if (solvedTask[i] === '-') {
+      flag = false;
+      break;
+    }
+  }
+  return flag;
+}
 
 function prettyBoard() {
   /**
@@ -94,11 +104,9 @@ function prettyBoard() {
    */
 }
 
-
-
 module.exports = {
   read,
   solve,
-  // isSolved,
+  isSolved,
   // prettyBoard
-}
+};
