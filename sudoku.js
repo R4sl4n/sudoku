@@ -2,43 +2,89 @@ const fs = require('fs');
 const os = require('os');
 
 function read() {
-  const readear = fs.readFileSync('./puzzles.txt', 'utf-8');
-  const task = readear.split(os.EOL);
-  const taskNum = process.argv[2] ?? 1;
+  const lineNumber = process.argv[2]; // Получаем цифру введенную в терминал
+  const fileContent = fs.readFileSync('puzzles.txt', 'utf-8').split(os.EOL); // Получаем все задачи из файла и преобразуем их в массив по переносу на новую строку; получаем массив, где каждый элемент - одна задача
 
-  return task[taskNum - 1];
+  const task = fileContent[lineNumber - 1];
+
+  /* 
+  Полученную задачу в виде строки преобразуем в двумерный массив, где каждая строка массив из 9 элементов и всего 9 строк
+  Получаем поле 9x9
+  */
+
+  const sudoku = [];
+
+  for (let i = 0; i < task.length; i += 9) {
+    const row = task.slice(i, i + 9);
+    sudoku.push(row.split(''));
+  }
+
+  return sudoku;
 }
 
 
-function solve() {
-  const sudoku = read();
-  console.log(sudoku);
-  const grid = [];
-  for (let row = 0; row < 9; row++) {
-    grid[row] = [];
-    for (let col = 0; col < 9; col++) {
-      const charindex = row * 9 + col;
+function solve(task) {
+  // Создаем копию массива, чтобы не менять исходный
+  const solution = task.map((row) => [...row]);
 
-      const char = sudoku[charindex];
-      if (char === '.') {
-        grid[row][col] = 0;
-      } else {
-        grid[row][col] = char;
+  for (let row = 0; row < 9; row++) {
+    for (let col = 0; col < 9; col++) {
+      if (solution[row][col] === '-') {
+        for (let num = 1; num <= 9; num++) {
+          const numStr = num.toString();
+
+          // Проверяем, можно ли поставить это число
+          let valid = true;
+
+          // Проверяем строки и столбцы всего поля
+          for (let i = 0; i < 9; i++) {
+            if (solution[row][i] === numStr || solution[i][col] === numStr) {
+              valid = false;
+              break;
+            }
+          }
+
+          // Проверяем блок 3x3
+          if (valid) {
+            const blockRow = Math.floor(row / 3) * 3;
+            const blockCol = Math.floor(col / 3) * 3;
+
+            for (let r = 0; r < 3; r++) {
+              for (let c = 0; c < 3; c++) {
+                if (solution[blockRow + r][blockCol + c] === numStr) {
+                  valid = false;
+                  break;
+                }
+              }
+
+              if (!valid) break;
+            }
+          }
+
+          if (valid) {
+            solution[row][col] = numStr;
+            const result = solve(solution);
+
+            if (result) return result;
+
+            solution[row][col] = '-';
+          }
+        }
+      return null;
       }
     }
   }
-return grid;
+  return solution;
 }
 
 
-console.log(solve());
 
-function isSolved() {
-  /**
-   * Принимает игровое поле в том формате, в котором его вернули из функции solve.
-   * Возвращает булевое значение — решено это игровое поле или нет.
-   */
-}
+// Функция: можно ли поставить число?
+function isSolved() {}
+
+
+
+
 
 function prettyBoard() {
   /**
@@ -46,4 +92,13 @@ function prettyBoard() {
    * Выводит в консоль/терминал судоку.
    * Подумай, как симпатичнее его вывести.
    */
+}
+
+
+
+module.exports = {
+  read,
+  solve,
+  // isSolved,
+  // prettyBoard
 }
