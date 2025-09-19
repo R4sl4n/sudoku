@@ -1,6 +1,7 @@
 const fs = require('fs');
 const os = require('os');
 
+
 function read() {
   const lineNumber = process.argv[2]; // Получаем цифру введенную в терминал
 
@@ -95,36 +96,32 @@ function isSolved(solvedTask) {
   }
   return flag;
 }
- 
-  function prettyBoard(grid) {
-   console.log("┌───────┬───────┬───────┐");
-    for (let row = 0; row < 9; row++) {
-        let line = "│ ";
-        for (let col = 0; col < 9; col++) {
-            line += grid[row][col];
-            if (col === 2 || col === 5) {
-                line += " │ ";
-            } else if (col < 8) {
-                line += " ";
-            }
-        }
-        line += " │";
-        console.log(line);
 
-        if (row === 2 || row === 5) {
-            console.log("├───────┼───────┼───────┤");
-        }
+function prettyBoard(grid) {
+  console.log('┌───────┬───────┬───────┐');
+  for (let row = 0; row < 9; row++) {
+    let line = '│ ';
+    for (let col = 0; col < 9; col++) {
+      line += grid[row][col];
+      if (col === 2 || col === 5) {
+        line += ' │ ';
+      } else if (col < 8) {
+        line += ' ';
+      }
     }
-    console.log("└───────┴───────┴───────┘");
+    line += ' │';
+    console.log(line);
+
+    if (row === 2 || row === 5) {
+      console.log('├───────┼───────┼───────┤');
+    }
+  }
+  console.log('└───────┴───────┴───────┘');
 }
-
-
-  
-
 
 module.exports = {
   read,
   solve,
   isSolved,
-  prettyBoard,
+  prettyBoard
 };

@@ -4,7 +4,8 @@
   "description": "## Введение",
   "main": "runner.js",
   "scripts": {
-    "start": "node runner.js"
+    "start": "node runner.js",
+     "test": "jest"
   },
   "repository": {
     "type": "git",
@@ -23,6 +24,7 @@
     "@eslint/js": "^9.35.0",
     "@eslint/json": "^0.13.2",
     "eslint": "^9.35.0",
-    "globals": "^15.15.0"
+    "globals": "^15.15.0",
+    "jest": "^30.1.3"
   }
 }
